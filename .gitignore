@@ -1,0 +1,6 @@
+# created by virtualenv automatically
+pyvenv
+Scripts
+Lib
+__pycache__
+.vscode
