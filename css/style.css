@@ -1,7 +1,19 @@
-table {
+/* table {
     background-color: rgb(255, 0, 0);
-}
+} */
 
 h3 {
     background-color: aquamarine;
+}
+
+/* .table-data {
+    background-color: blue;
+} */
+
+#table1 {
+    background-color: aquamarine
+}
+
+#table2 {
+    background-color: blue;
 }
