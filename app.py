@@ -1,23 +1,21 @@
-from flask import Flask, escape, request
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return """
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twittor</title>
-</head>
-<body>
-    <h1>Hello, Twittor</h1> 
-</body>
-</html>
-"""
+    name = {'username' : 'root'}
+    rows = [
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+        {'name': 'Python', 'age': 27},
+    ]
+    return render_template('index.html', name=name, rows=rows)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
