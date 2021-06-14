@@ -5,20 +5,19 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     return """
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Page Title</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twittor</title>
 </head>
 <body>
-
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
-
+    <h1>Hello, Twittor</h1> 
 </body>
 </html>
 """
 
-@app.route('/test')
-def test():
-    return "this is a test"
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
