@@ -1,4 +1,5 @@
 from flask import render_template
+from twittor.forms import LoginForm
 
 def index():
     name = {'username' : 'root'}
@@ -19,4 +20,6 @@ def index():
     return render_template('index.html', name=name, postOutput=postInput)
 
 def login():
-    return render_template('login.html')
+    form = LoginForm(meta={'csrf': False})
+
+    return render_template('login.html', title="Sign In", form=form)
