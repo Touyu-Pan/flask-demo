@@ -5,7 +5,6 @@ class User(db.Model):
     username = db.Column(db.String(64), unique = True, index = True)
     email = db.Column(db.String(64), unique = True, index = True)
     password_hash = db.Column(db.String(128))
-    phone = db.Column(db.String(32))
 
     def __repr__(self):
         return 'id={}, username={}, eamil={}, password_hash={}'.format(
