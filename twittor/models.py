@@ -1,4 +1,3 @@
-from enum import unique
 from twittor import db
 
 class User(db.Model):
