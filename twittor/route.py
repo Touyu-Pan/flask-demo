@@ -6,7 +6,6 @@ from twittor.models import User, Tweet
 
 @login_required
 def index():
-    name = {'username' : 'root'}
     postInput = [
         {
             "author": {"username": "Pan"},
@@ -21,7 +20,7 @@ def index():
             "body": "this is a test text_bAAA"
         }
     ]
-    return render_template('index.html', name=name, postOutput=postInput)
+    return render_template('index.html', postOutput=postInput)
 
 def login():
     if current_user.is_authenticated:
