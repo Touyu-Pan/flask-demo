@@ -7,6 +7,7 @@ from twittor.config import Config
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+login_manager.login_view = 'login'
 
 from twittor.route import index, login, logout
 

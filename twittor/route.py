@@ -1,9 +1,10 @@
 from re import L
-from flask import render_template, redirect, url_for
-from flask_login import login_user, current_user, logout_user
+from flask import render_template, redirect, url_for, request
+from flask_login import login_user, current_user, logout_user, login_required
 from twittor.forms import LoginForm
 from twittor.models import User, Tweet
 
+@login_required
 def index():
     name = {'username' : 'root'}
     postInput = [
@@ -32,6 +33,9 @@ def login():
             print('invalid username or password')
             return redirect(url_for('login'))
         login_user(u, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if next_page:
+            return redirect(next_page)
         return redirect(url_for('index'))
 
         return redirect(url_for('index'))
