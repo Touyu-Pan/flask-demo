@@ -1,4 +1,6 @@
+from re import L
 from flask import render_template, redirect, url_for
+from flask_login import login_user, current_user, logout_user
 from twittor.forms import LoginForm
 from twittor.models import User, Tweet
 
@@ -21,13 +23,21 @@ def index():
     return render_template('index.html', name=name, postOutput=postInput)
 
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm(meta={'csrf': False})
     if form.validate_on_submit():
-        msg = "username={}, password={}, remember_me={}".format(
-            form.username.data,
-            form.password.data,
-            form.remember_me.data
-        )
-        print(msg)
+        u = User.query.filter_by(username=form.username.data).first()
+        if u is None or not u.check_password(form.password.data):
+            print('invalid username or password')
+            return redirect(url_for('login'))
+        login_user(u, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+
         return redirect(url_for('index'))
     return render_template('login.html', title="Sign In", form=form)
+
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
