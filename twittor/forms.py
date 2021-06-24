@@ -31,3 +31,4 @@ class RegisterFrom(FlaskForm):
 class EditProfileForm(FlaskForm):
     about_me = TextAreaField("About me", validators=[Length(min=0, max=120)])
     submit = SubmitField("Save")
+    btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})

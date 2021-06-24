@@ -80,6 +80,8 @@ def edit_profile():
     if request.method == 'GET':
         form.about_me.data = current_user.about_me
     if form.validate_on_submit():
+        if form.btn_cancel.data:
+            return redirect(url_for('profile', username = current_user.username))
         current_user.about_me = form.about_me.data
         db.session.commit()
         return redirect(url_for('profile', username = current_user.username))
