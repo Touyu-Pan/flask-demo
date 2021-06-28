@@ -1,3 +1,4 @@
+import re
 from flask import render_template, redirect, url_for, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from twittor.forms import LoginForm, RegisterFrom, EditProfileForm
@@ -69,6 +70,13 @@ def user(username):
             "body": "hi i'm {}".format(u.username)
         }
     ]
+    if request.method == 'POST':
+        if request.form['request_button'] == 'Follow':
+            current_user.follow(u)
+            db.session.commit()
+        else:
+            current_user.unfollow(u)
+            db.session.commit()
     return render_template('user.html', title='Profile', posts=posts, user=u)
 
 def page_not_found(e):
