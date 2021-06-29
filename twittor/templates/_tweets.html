@@ -1,0 +1,15 @@
+<table>
+{% for tweet in tweets %}
+      <tr valign="top">
+          <td><img src="{{ tweet.author.avatar(48) }}" alt=""></td>
+          <td>
+            <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
+            {{ tweet.create_time }}<br>
+            {{ tweet.body }}<br>
+            {% if user == current_user %}
+              tweet id = {{ tweet.id }}
+            {% endif %}
+          </td>
+      </tr>
+{% endfor %}
+</table>
