@@ -12,9 +12,6 @@ def index():
         t = Tweet(body=form.tweet.data, author=current_user)
         if form.btn_cancel.data:
             return redirect(url_for('index', username = current_user.username))
-        if form.btn_delete:
-            db.session.delete(t)
-            db.session.commit()
         db.session.add(t)
         db.session.commit()
         return redirect(url_for('index'))

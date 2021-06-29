@@ -37,4 +37,3 @@ class TweetForm(FlaskForm):
     tweet = TextAreaField("Tweet", validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField("Tweet")
     btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
-    btn_delete = SubmitField(label='Delete')
