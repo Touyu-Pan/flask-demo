@@ -56,7 +56,7 @@ def user(username):
     if u is None:
         abort(404)
 
-    tweets = u.tweets
+    tweets = u.tweets.order_by(Tweet.create_time.desc())
     
     if request.method == 'POST':
         if request.form['request_button'] == 'Follow':
