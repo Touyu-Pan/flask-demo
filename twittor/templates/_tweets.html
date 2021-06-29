@@ -6,9 +6,9 @@
             <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
             {{ tweet.create_time }}<br>
             {{ tweet.body }}<br>
-            {% if tweet.author == current_user %}
+            <!-- {% if tweet.author == current_user %}
               tweet id = {{ tweet.id }}
-            {% endif %}
+            {% endif %} -->
           </td>
       </tr>
 {% endfor %}
