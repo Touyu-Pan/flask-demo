@@ -37,3 +37,12 @@ class TweetForm(FlaskForm):
     tweet = TextAreaField("Tweet", validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField("Tweet")
     btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
+
+class PasswordResetForm(FlaskForm):
+    email = StringField("Email Address", validators=[DataRequired(), Email()])
+    submit = SubmitField('Reset Password')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError('You do not have an account for this email address')

@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for, request, abort, current_app
+from flask import render_template, redirect, url_for, request, abort, current_app, flash
 from flask_login import login_user, current_user, logout_user, login_required
-from twittor.forms import LoginForm, RegisterFrom, EditProfileForm, TweetForm
+from twittor.email import send_email
+from twittor.forms import LoginForm, PasswordResetForm, RegisterFrom, EditProfileForm, TweetForm
 from twittor.models import User, Tweet
 from twittor import db
 
@@ -8,9 +9,9 @@ from twittor import db
 def index():
     form = TweetForm()
     if form.validate_on_submit():
-        t = Tweet(body=form.tweet.data, author=current_user)
         if form.btn_cancel.data:
             return redirect(url_for('index', username = current_user.username))
+        t = Tweet(body=form.tweet.data, author=current_user)
         db.session.add(t)
         db.session.commit()
         return redirect(url_for('index'))
@@ -54,6 +55,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Registration', form=form)
 
+
 @login_required
 def user(username):
     u = User.query.filter_by(username=username).first()
@@ -79,7 +81,7 @@ def user(username):
         if request.form['request_button'] == 'Follow':
             current_user.follow(u)
             db.session.commit()
-        else:
+        if request.form['request_button'] == 'Unfollow':
             current_user.unfollow(u)
             db.session.commit()
     return render_template(
@@ -101,3 +103,28 @@ def edit_profile():
         db.session.commit()
         return redirect(url_for('profile', username = current_user.username))
     return render_template('edit_profile.html', title='Profile Editer', form=form)
+
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash(
+                "You should soon receive an email allowing you to reset your \
+                password. Please make sure to check your spam and trash \
+                if you can't find the eamil."
+            )
+            token = user.get_jwt()
+            url = 'http://127.0.0.1:5000/password_reset/{}'.format(token)
+            send_email(
+                subject='subject',
+                recipients=[user.email],
+                text_body=url,
+                html_body='<h1>{}</h1>'.format(url)
+            )
+        else:
+            raise
+        return redirect(url_for('login'))
+    return render_template('password_reset_request.html', form=form)
