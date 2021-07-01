@@ -6,9 +6,13 @@
             <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
             {{ tweet.create_time }}<br>
             {{ tweet.body }}<br>
-            <!-- {% if tweet.author == current_user %}
+            {% if tweet.author == current_user %}
               tweet id = {{ tweet.id }}
-            {% endif %} -->
+              <form action="" method="POST">
+                {{ delete_tweet_form.hidden_tag() }}
+                {{ delete_tweet_form.delete_tweet_button() }}
+              </form>
+            {% endif %}
           </td>
       </tr>
 {% endfor %}

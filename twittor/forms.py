@@ -31,12 +31,15 @@ class RegisterFrom(FlaskForm):
 class EditProfileForm(FlaskForm):
     about_me = TextAreaField("About me", validators=[Length(min=0, max=120)])
     submit = SubmitField("Save")
-    btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
+    btn_cancel = SubmitField(label='Cancel')
 
 class TweetForm(FlaskForm):
     tweet = TextAreaField("Tweet", validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField("Tweet")
-    btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
+    btn_cancel = SubmitField(label='Cancel')
+
+class DeleteTweetForm(FlaskForm):
+    delete_tweet_button = SubmitField("DeleteTweet")
 
 class PasswordResetForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
