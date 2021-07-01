@@ -12,7 +12,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 mail = Mail()
 
-from twittor.route import index, login, logout, register, reset_password_request, user, page_not_found, edit_profile, reset_password_request
+from twittor.route import index, login, logout, password_reset, register, reset_password_request, user, page_not_found, edit_profile, reset_password_request
 
 def create_app():
     app = Flask(__name__)
@@ -33,6 +33,12 @@ def create_app():
         '/reset_password_request',
         'reset_password_request',
         reset_password_request,
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule(
+        '/password_reset/<token>',
+        'password_reset',
+        password_reset,
         methods=['GET', 'POST']
     )
     return app

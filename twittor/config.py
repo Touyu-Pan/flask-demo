@@ -8,9 +8,10 @@ class Config:
     SECRET_KEY = 'abc123'
     TWEET_PER_PAGE = 8
 
-    MAIL_DEFAULT_SENDER = 'noreply@twittor.com'
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = 1
-    MAIL_USERNAME = 'twittortesting840814@gmail.com'
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@twittor.com')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+    MAIL_PORT = os.environ.get('MAIL_PORT', 587)
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 1)
+    MAIL_USERNAME = 'twittor20210701@gmail.com'
     MAIL_PASSWORD = 'twittor123'
+    MAIL_SUBJECT_RESET_PASSWORD = '[Twittor] Please Reset Your Password'

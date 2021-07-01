@@ -38,7 +38,7 @@ class TweetForm(FlaskForm):
     submit = SubmitField("Tweet")
     btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
 
-class PasswordResetForm(FlaskForm):
+class ResetPasswordRequestForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
     submit = SubmitField('Reset Password')
 
@@ -46,3 +46,8 @@ class PasswordResetForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError('You do not have an account for this email address')
+
+class PasswordResetForm(FlaskForm):
+    password = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Submit')

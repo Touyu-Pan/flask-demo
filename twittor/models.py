@@ -67,7 +67,7 @@ class User(UserMixin, db.Model):
         own = Tweet.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Tweet.create_time.desc())
 
-    def get_jwt(self, expire=600):
+    def get_jwt(self, expire=7200):
         return jwt.encode(
             {
                 'email': self.email,
@@ -77,19 +77,18 @@ class User(UserMixin, db.Model):
             algorithm='HS256'
         )
 
-    def verify_jwt(self, token):
+    @staticmethod
+    def verify_jwt(token):
         try :
             email = jwt.decode(
                 token,
                 current_app.config['SECRET_KEY'],
-                algorithm=['HS256']
+                algorithms=['HS256']
             )
             email = email['email']
         except:
             return
         return User.query.filter_by(email=email).first()
-    
-    
 
 @login_manager.user_loader
 def load_user(id):
