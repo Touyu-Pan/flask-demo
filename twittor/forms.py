@@ -38,6 +38,9 @@ class TweetForm(FlaskForm):
     submit = SubmitField("Tweet")
     btn_cancel = SubmitField(label='Cancel', render_kw={'formnovalidate': True})
 
+class DeleteTweetForm(FlaskForm):
+    delete_tweet_button = SubmitField("DeleteTweet")
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
     submit = SubmitField('Reset Password')

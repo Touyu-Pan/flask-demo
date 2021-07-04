@@ -6,9 +6,14 @@
             <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
             {{ tweet.create_time }}<br>
             {{ tweet.body }}<br>
-            <!-- {% if tweet.author == current_user %}
+            {% if tweet.author == current_user %}
               tweet id = {{ tweet.id }}
-            {% endif %} -->
+              <form action="" method="POST">
+                {{ delete_tweet_form.hidden_tag() }}
+                <input type="hidden" name = "tweet_id" value="{{ tweet.id }}">
+                <input type="submit" name = "tweet_delete" value = "Delete" onclick="return confirm('Are you sure?');">
+              </form>
+            {% endif %}
           </td>
       </tr>
 {% endfor %}
