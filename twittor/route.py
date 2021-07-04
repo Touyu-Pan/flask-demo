@@ -176,3 +176,25 @@ def password_reset(token):
     return render_template(
         'password_reset.html', title='Password Reset', form=form
     )
+
+@login_required
+def explore():
+    # get all user and sort by followers
+    page_num = int(request.args.get('page') or 1)
+    tweets = Tweet.query.order_by(Tweet.create_time.desc()).paginate(
+        page = page_num, per_page = current_app.config['TWEET_PER_PAGE'], error_out=False
+    )
+
+    delete_tweet_form = DeleteTweetForm()
+    if delete_tweet_form.validate_on_submit():
+        id = request.values['tweet_id']
+        tweet_to_deleted = Tweet.query.get(id)
+        db.session.delete(tweet_to_deleted)
+        db.session.commit()
+        return redirect(url_for('profile', username = current_user.username))
+
+    next_url = url_for('explore', page=tweets.next_num) if tweets.has_next else None
+    prev_url = url_for('explore', page=tweets.prev_num) if tweets.has_prev else None
+    return render_template(
+        'explore.html', tweets=tweets.items, next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form
+    )
