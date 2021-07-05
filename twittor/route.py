@@ -41,7 +41,7 @@ def login():
     if form.validate_on_submit():
         u = User.query.filter_by(username=form.username.data).first()
         if u is None or not u.check_password(form.password.data):
-            print('invalid username or password')
+            flash('invalid username or password')
             return redirect(url_for('login'))
         login_user(u, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -100,12 +100,56 @@ def user(username):
         if request.form['request_button'] == 'Follow':
             current_user.follow(u)
             db.session.commit()
-        if request.form['request_button'] == 'Unfollow':
+        elif request.form['request_button'] == 'Unfollow':
             current_user.unfollow(u)
             db.session.commit()
+        else:
+            flash("We've send an email to your email address, please check.")
+            send_email_for_user_activate(current_user)
     return render_template(
-        'user.html', title='Profile', tweets=tweets.items, user=u, next_url=next_url, prev_url=prev_url
-        , delete_tweet_form=delete_tweet_form
+        'user.html',
+        title='Profile',
+        tweets=tweets.items,
+        user=u,
+        next_url=next_url,
+        prev_url=prev_url,
+        delete_tweet_form=delete_tweet_form
+    )
+
+def send_email_for_user_activate(user):
+    token = user.get_jwt()
+    url_user_activate = url_for(
+        'user_activate',
+        token=token,
+        _external=True
+    )
+    send_email(
+        subject=current_app.config['MAIN_SUBJECT_USER_ACTIVATE'],
+        recipients=[user.email],
+        text_body= render_template(
+            'email/user_activate.txt',
+            username=user.username,
+            url_user_activate=url_user_activate
+        ),
+        html_body=render_template(
+            'email/user_activate.html',
+            username=user.username,
+            url_user_activate=url_user_activate
+        )
+    )
+
+def user_activate(token):
+    if current_user.is_activated:
+        return redirect(url_for('index'))
+    user = User.verify_jwt(token)
+    if not user:
+        msg = "Token has expired, please try to re-send email"
+    else:
+        user.is_activated = True
+        db.session.commit()
+        msg = 'User has been activated!'
+    return render_template(
+        'user_activate.html', msg=msg
     )
 
 def page_not_found(e):
