@@ -4,3 +4,5 @@ Scripts
 Lib
 __pycache__
 .vscode
+setup_gcp
+run_server
