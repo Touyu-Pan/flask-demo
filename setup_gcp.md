@@ -1,4 +1,4 @@
-# setup on AWS
+# setup on GCP
 
 ## install docker
 
