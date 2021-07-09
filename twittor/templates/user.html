@@ -35,7 +35,7 @@
                 {% endif %}
 
                 {% if user.create_time %}
-                <p><b>Joined time : </b>{{ user.create_time }}</p>
+                <p><b>Joined time : </b>{{ user.create_time.strftime("%Y/%m/%d %H:%M:%S") }}</p>
                 {% endif %}
 
                 {% if user==current_user %}

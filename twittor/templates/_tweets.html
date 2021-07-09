@@ -4,7 +4,7 @@
           <td><img src="{{ tweet.author.avatar(48) }}" alt=""></td>
           <td class="col-md-8 align-left">
             <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
-            {{ tweet.create_time }}<br>
+            {{ tweet.create_time.strftime("%Y/%m/%d %H:%M:%S") }}<br>
             {{ tweet.body }}<br>
             {% if tweet.author == current_user %}
               <form action="" method="POST">
