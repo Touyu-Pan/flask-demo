@@ -1,6 +1,6 @@
 FROM python:3.6-alpine
 
-LABEL maintainer="Peng Xiao <xiaoquwl@gmail.com>"
+LABEL maintainer="Tou-yu Pan <firward84081441@gmail.com>"
 
 RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 

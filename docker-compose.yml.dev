@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=mysql+pymysql://root:root@127.0.0.1:3306/twittor
+      - DATABASE_URL=mysql+pymysql://root:root@172.17.0.1:3306/twittor
       - MAIL_USERNAME=xxxx@gmail.com
       - MAIL_PASSWORD=xxxxxxxxx
 
