@@ -1,8 +1,5 @@
-# created by virtualenv automatically
-pyvenv
+pyvenv.cfg
 Scripts
 Lib
 __pycache__
 .vscode
-setup_gcp
-run_server
