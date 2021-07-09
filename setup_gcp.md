@@ -40,8 +40,38 @@ Server: Docker Engine - Community
 docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
 ```
 
-create database
+enter mysql
+
+```
+docker exec -it some-sql sh
+```
+
+login as root
+
+```
+mysql -u root -p
+```
+
+Enter your password, then create the database
 
 ```
 CREATE DATABASE twittor CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+check database creation
+```
+show databases;
+use <database>;
+show tables;
+```
+
+database init
+
+```
+docker exec -it flask-demo_web_1 sh
+python3
+export FLASK_APP=manager.py
+flask db init
+flask db migrate -m "create table"
+flask db upgrade
 ```
