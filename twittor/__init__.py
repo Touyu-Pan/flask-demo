@@ -13,7 +13,7 @@ login_manager.login_view = 'login'
 mail = Mail()
 
 from twittor.route import index, login, logout, password_reset, register, reset_password_request, user, \
-    page_not_found, edit_profile, reset_password_request, explore, user_activate
+    page_not_found, edit_profile, reset_password_request, explore, user_activate, countTweets
 
 def create_app():
     app = Flask(__name__)
@@ -44,5 +44,6 @@ def create_app():
     )
     app.add_url_rule('/explore', 'explore', explore)
     app.add_url_rule('/activate/<token>', 'user_activate', user_activate)
+    app.add_url_rule('/countTweets', 'countTweets', countTweets, methods=['POST'])
     return app
     
