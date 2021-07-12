@@ -43,7 +43,7 @@ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=root -d mysql:5
 enter mysql
 
 ```
-docker exec -it some-sql sh
+docker exec -it some-mysql sh
 ```
 
 login as root
@@ -69,9 +69,18 @@ database init
 
 ```
 docker exec -it flask-demo_web_1 sh
-python3
 export FLASK_APP=manager.py
 flask db init
 flask db migrate -m "create table"
 flask db upgrade
+```
+
+Copy file inside docker container
+```
+docker cp <container>:/path/to/file.ext .
+```
+
+Removing All Unused Docker Objects
+```
+docker system prune
 ```

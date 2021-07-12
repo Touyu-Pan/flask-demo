@@ -2,7 +2,7 @@ FROM python:3.6-alpine
 
 LABEL maintainer="Tou-yu Pan <firward84081441@gmail.com>"
 
-RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
+RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev build-base
 
 COPY . /twittor
 

@@ -10,7 +10,7 @@ from twittor.email import send_email
 
 @login_required
 def index():
-    tweetsCount = Tweet.query.count()
+    tweetsCount = current_user.own_and_followed_tweets().count()
     form = TweetForm()
     if form.validate_on_submit():
         t = Tweet(body=form.tweet.data, author=current_user)
@@ -38,7 +38,7 @@ def index():
 
 @login_required
 def countTweets():
-    tweetsCount = Tweet.query.count()
+    tweetsCount = current_user.own_and_followed_tweets().count()
     return jsonify('', render_template('tweetsCounts.html', tweetsCount=tweetsCount))
 
 def login():
