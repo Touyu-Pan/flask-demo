@@ -8,6 +8,9 @@ from twittor.models.tweet import Tweet
 from twittor import db
 from twittor.email import send_email
 
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
 @login_required
 def index():
     tweetsCount = current_user.own_and_followed_tweets().count()
@@ -55,7 +58,30 @@ def login():
         if next_page:
             return redirect(next_page)
         return redirect(url_for('index'))
-    return render_template('login.html', title="Sign In", form=form)
+    return render_template('login.html', title="Sign In", form=form, google_oauth2_client_id=current_app.config['GOOGLE_OAUTH2_CLIENT_ID'])
+
+def google_sign_in():
+    token = request.json['id_token']
+    try:
+        # Specify the GOOGLE_OAUTH2_CLIENT_ID of the app that accesses the backend:
+        id_info = id_token.verify_oauth2_token(
+            token,
+            requests.Request(),
+            current_app.config['GOOGLE_OAUTH2_CLIENT_ID']
+        )
+
+        if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+            raise ValueError('Wrong issuer.')
+
+        # ID token is valid. Get the user's Google Account ID from the decoded token.
+        # user_id = id_info['sub']
+        # reference: https://developers.google.com/identity/sign-in/web/backend-auth
+    except ValueError:
+        # Invalid token
+        raise ValueError('Invalid token')
+
+    print('LOGIN SUCCESS')
+    return jsonify({}), 200
 
 def logout():
     logout_user()

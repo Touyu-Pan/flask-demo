@@ -16,3 +16,4 @@ class Config:
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     MAIL_SUBJECT_RESET_PASSWORD = '[Twittor] Please Reset Your Password'
     MAIN_SUBJECT_USER_ACTIVATE = '[Twittor] Please Activate Your Accout'
+    GOOGLE_OAUTH2_CLIENT_ID = '335488749016-f2lv0nnib7pt8c88lt36d34mv3ot33t8.apps.googleusercontent.com'

@@ -1,6 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+    function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    $.ajax({
+        url: '/google_sign_in',
+        type: "POST",
+        data: JSON.stringify({'id_token': id_token}),
+        success: function() {
+        console.log('login success')
+        },
+        dataType: 'application/json',
+        contentType:"application/json",
+    });
+    }
+</script>
 <div class='row'>
     <div class="text-center col-lg-4"></div>
     <div class="text-center col-lg-4">
@@ -19,6 +39,7 @@
             {{ form.remember_me.label }}
         </p>
         <button class="btn btn-lg btn-outline-primary" type="submit">Login</button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <p>
         <a href="{{ url_for('register') }}">New User?</a> or 
         <a href="{{ url_for('reset_password_request') }}">Forgot Password?</a> 
