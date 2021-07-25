@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.String(120))
     create_time = db.Column(db.DateTime, default=datetime.utcnow)
     is_activated = db.Column(db.Boolean, default=False)
+    permission = db.Column(db.String(8), default=None)
 
     tweets = db.relationship('Tweet', backref='author', lazy='dynamic')
 
@@ -34,8 +35,8 @@ class User(UserMixin, db.Model):
         )
 
     def __repr__(self):
-        return 'id={}, username={}, eamil={}, password_hash={}'.format(
-            self.id, self.username, self.email, self.password_hash
+        return 'id={}, username={}, eamil={}, permission={}'.format(
+            self.id, self.username, self.email, self.permission
         )
 
     def set_password(self, password):
