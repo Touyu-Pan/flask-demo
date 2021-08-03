@@ -39,6 +39,9 @@ class TweetForm(FlaskForm):
 class DeleteTweetForm(FlaskForm):
     delete_tweet_button = SubmitField("DeleteTweet")
 
+class GoogleLoginForm(FlaskForm):
+    submit = SubmitField("GoogleLogin")
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
     submit = SubmitField('Reset Password')

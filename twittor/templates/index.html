@@ -34,15 +34,13 @@
     <p>
       <button class="btn btn-info" type="submit">Tweet</button>
       <a href="{{ url_for('index') }}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
-  {% endif %}
       <div id="tweetsCount">
         <b>Total tweets</b> : {{ tweetsCount }}
       </div>
     </p>
+    {% endif %}
   </form>
-  <script>
-  </script>
-
+  
   {% include '_tweets.html' %}
   {% if prev_url %}
   <a href="{{ prev_url }}">Prev Page</a>

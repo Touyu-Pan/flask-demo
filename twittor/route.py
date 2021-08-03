@@ -1,15 +1,12 @@
-from flask import render_template, redirect, url_for, request, abort, current_app, flash, jsonify
+from flask import render_template, redirect, url_for, request, abort, current_app, flash, jsonify, session
 from flask_login import login_user, current_user, logout_user, login_required
 
 from twittor.forms import LoginForm, RegisterFrom, EditProfileForm, TweetForm, DeleteTweetForm, \
-    ResetPasswordRequestForm, PasswordResetForm
+    ResetPasswordRequestForm, PasswordResetForm, GoogleLoginForm
 from twittor.models.user import User, load_user
 from twittor.models.tweet import Tweet
-from twittor import db
+from twittor import db, oauth
 from twittor.email import send_email
-
-from google.oauth2 import id_token
-from google.auth.transport import requests
 
 @login_required
 def index():
@@ -31,7 +28,6 @@ def index():
         db.session.commit()
         return redirect(url_for('index'))
 
-
     next_url = url_for('index', page=tweets.next_num) if tweets.has_next else None
     prev_url = url_for('index', page=tweets.prev_num) if tweets.has_prev else None
     return render_template(
@@ -47,6 +43,7 @@ def countTweets():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+
     form = LoginForm(meta={'csrf': False})
     if form.validate_on_submit():
         u = User.query.filter_by(username=form.username.data).first()
@@ -58,34 +55,43 @@ def login():
         if next_page:
             return redirect(next_page)
         return redirect(url_for('index'))
-    return render_template('login.html', title="Sign In", form=form, google_oauth2_client_id=current_app.config['GOOGLE_OAUTH2_CLIENT_ID'])
 
-def google_sign_in():
-    token = request.json['id_token']
-    try:
-        # Specify the GOOGLE_OAUTH2_CLIENT_ID of the app that accesses the backend:
-        id_info = id_token.verify_oauth2_token(
-            token,
-            requests.Request(),
-            current_app.config['GOOGLE_OAUTH2_CLIENT_ID']
-        )
+    google_login_form = GoogleLoginForm()
+    if google_login_form.validate_on_submit():
+        google = oauth.create_client('google')  # create the google oauth client
+        redirect_uri = url_for('google_authorize', _external=True)
+        return google.authorize_redirect(redirect_uri)
 
-        if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            raise ValueError('Wrong issuer.')
-
-        # ID token is valid. Get the user's Google Account ID from the decoded token.
-        # user_id = id_info['sub']
-        # reference: https://developers.google.com/identity/sign-in/web/backend-auth
-    except ValueError:
-        # Invalid token
-        raise ValueError('Invalid token')
-
-    print('LOGIN SUCCESS')
-    return jsonify({}), 200
+    return render_template('login.html', title="Sign In", form=form, google_login_form=google_login_form
+    )
 
 def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    session.pop("userinfo", None)
     logout_user()
     return redirect(url_for('login'))
+
+def google_authorize():
+    google = oauth.create_client('google')  # create the google oauth client
+    google.authorize_access_token()  # Access token from google (needed to get user info)
+    # resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
+    # user_info = resp.json()
+    session["userinfo"] = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+
+    # Here you use the profile/user data that you got and query your database find/register the user
+    # and set ur own data in the session not the profile from google
+    if "userinfo" in session:
+        userinfo = session["userinfo"]
+        user = User.query.filter_by(email=userinfo['email']).first()
+        if user is None:
+            user = User(username=userinfo['name'], email=userinfo['email'])
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+        login_user(user)
+    session.permanent = False  # make the session permanant so it keeps existing after broweser gets closed
+    return redirect('/')
 
 def register():
     if current_user.is_authenticated:

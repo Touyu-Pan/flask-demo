@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 config_path = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,4 +17,8 @@ class Config:
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     MAIL_SUBJECT_RESET_PASSWORD = '[Twittor] Please Reset Your Password'
     MAIN_SUBJECT_USER_ACTIVATE = '[Twittor] Please Activate Your Accout'
-    GOOGLE_OAUTH2_CLIENT_ID = '335488749016-f2lv0nnib7pt8c88lt36d34mv3ot33t8.apps.googleusercontent.com'
+    GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
+    SESSION_COOKIE_NAME = 'google-login-session'
