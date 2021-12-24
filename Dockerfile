@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.9.9-alpine3.15
 
 LABEL maintainer="Tou-yu Pan <firward84081441@gmail.com>"
 
@@ -8,7 +8,7 @@ COPY . /twittor
 
 WORKDIR /twittor
 
-RUN pip install -r requirements.txt && pip install gunicorn&&chmod 755 run_server.sh
+RUN pip install -r requirements.txt && pip install gunicorn && chmod 755 run_server.sh
 
 EXPOSE 8000
 
