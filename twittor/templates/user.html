@@ -18,7 +18,10 @@
                         {% endif %}
                     </form>
                     <p>
-                        <b>Followers :</b>{{ user.followers.count() }}  <b>Followering :</b> {{ user.followed.count() }}
+                        <b>Followers : </b>{{ user.followers.count() }}  <b>Followering : </b> {{ user.followed.count() }}
+                    </p>
+                    <p>
+                        <b>Email : </b>{{ user.email }}
                     </p>
                     <form action="" method="post">
                         {% if user != current_user %}
