@@ -35,9 +35,7 @@ class User(UserMixin, db.Model):
         )
 
     def __repr__(self):
-        return 'id={}, username={}, eamil={}, permission={}'.format(
-            self.id, self.username, self.email, self.permission
-        )
+        return f'id={self.id}, username={self.username}, eamil={self.email}, permission={self.permission}'
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
