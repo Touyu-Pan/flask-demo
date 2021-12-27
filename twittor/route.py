@@ -199,8 +199,10 @@ def edit_profile():
     form = EditProfileForm()
     if request.method == 'GET':
         form.about_me.data = current_user.about_me
+        form.email.data = current_user.email
     if form.validate_on_submit():
         current_user.about_me = form.about_me.data
+        current_user.email = form.email.data
         db.session.commit()
         return redirect(url_for('profile', username = current_user.username))
     return render_template('edit_profile.html', title='Profile Editer', form=form)
