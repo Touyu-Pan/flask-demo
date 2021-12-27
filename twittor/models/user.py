@@ -47,9 +47,7 @@ class User(UserMixin, db.Model):
 
     def avatar(self, size=80):
         md5_digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-            md5_digest, size
-        )
+        return f'https://picsum.photos/seed/{md5_digest}/{size}/{size}'
 
     def follow(self, user):
         if not self.is_following(user):

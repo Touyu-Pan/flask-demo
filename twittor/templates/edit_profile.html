@@ -8,13 +8,13 @@
     <form action="" method="POST">
         {{ form.hidden_tag() }}
         <h3>About me</h3>
-        <p>
+        <div>
             <!-- {{ form.about_me.label }}<br> -->
             {{ form.about_me(cols=50, rows=4) }}<br>
             {% for error in form.about_me.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
+        </div>
         <h3>Email</h3>
         <div>
             {{ form.email(cols=50, rows=1) }}<br>
@@ -22,10 +22,10 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </div>
-        <p>
+        <div>
             <button class="btn btn-info" type="submit" name="submit" value="submit">Save</button>
             <a href="{{ url_for('profile', username = current_user.username) }}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
-        </p>
+        </div>
     </form>
     </div>
 </div>
