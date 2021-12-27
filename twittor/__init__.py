@@ -58,7 +58,7 @@ def create_app():
         password_reset,
         methods=['GET', 'POST']
     )
-    app.add_url_rule('/explore', 'explore', explore)
+    app.add_url_rule('/explore', 'explore', explore, methods=['GET', 'POST'])
     app.add_url_rule('/activate/<token>', 'user_activate', user_activate)
     app.add_url_rule('/countTweets', 'countTweets', countTweets, methods=['POST'])
     app.add_url_rule('/google_authorize', 'google_authorize', google_authorize)
