@@ -15,9 +15,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap"
   rel="stylesheet">
   <style>
-    a {
+    .Montserrat {
       font-family: 'Montserrat', sans-serif;
       text-decoration: None;
+    }
+    a {
+      text-decoration: None;
+    }
+    .bgColor {
+      background-color: #AEFEFF;
+    }
+    .navbarColor{
+      background-color: #4FBDBA;
+      border-radius: 10px;
     }
   </style>
   <!-- jQurey CDN -->
@@ -30,7 +40,7 @@
   <title>Welcome to Twittor</title>
   {% endif %}
 </head>
-<body style="background-color: #f3f8ff;">
+<body class="bgColor">
   <script>
     function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -39,17 +49,41 @@
     });
     }
   </script>
-  <div class="sticky-top d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-    <a class="p-2 text-dark my-0 mr-md-auto font-weight-normal" href="{{ url_for('index') }}">Twittor</a>
-    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-      <a class="me-3 py-2 text-dark text-decoration-none" href="{{ url_for('explore') }}">Explore</a>
+  <div class="container navbarColor">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <img src="{{ url_for('static', filename='img/smolAmeJAM.gif') }}" alt="2">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('explore') }}">Explore</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            {% if current_user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profile', username = current_user.username) }}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}" onclick="signOut();">Logout</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
     </nav>
-    {% if current_user.is_anonymous %}
-      <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Login</a>
-    {% else %}
-      <a class="btn btn-outline-primary" href="{{ url_for('profile', username = current_user.username) }}">Profile</a>
-      <a class="btn btn-outline-secondary" href="{{ url_for('logout') }}" onclick="signOut();">Logout</a>
-    {% endif %}
   </div>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
