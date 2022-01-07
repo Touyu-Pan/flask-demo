@@ -18,7 +18,7 @@
             {% if current_user.permission == 'admin' %}
               <form action="" method="POST">
                 {{ delete_tweet_form.hidden_tag() }}
-                <button class="btn-secondary" type="submit" name = "tweet_id" value="{{ tweet.id }}" onclick="return confirm('Are you sure?');">Delete</button>
+                <button class="btn-secondary" style="border-radius: 15px;" type="submit" name = "tweet_id" value="{{ tweet.id }}" onclick="return confirm('Are you sure?');">Delete</button>
               </form>
             {% endif %}
           </td>

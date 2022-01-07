@@ -31,7 +31,6 @@ from twittor.route import index, login, logout, password_reset, register, reset_
     page_not_found, edit_profile, reset_password_request, explore, user_activate, countTweets, google_authorize
 
 def create_app():
-    # app = Flask(__name__)
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
@@ -39,6 +38,8 @@ def create_app():
     login_manager.init_app(app)
     mail.init_app(app)
     oauth.init_app(app)
+
+    # url route definition
     app.add_url_rule('/index',
         endpoint='index',
         view_func=index,

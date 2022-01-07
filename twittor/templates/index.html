@@ -32,8 +32,13 @@
         {% endfor %}
     </p>
     <p>
-      <button class="btn btn-info" type="submit">Tweet</button>
-      <a href="{{ url_for('index') }}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
+      <button class="btn" type="submit" 
+      style="
+        border-color: #35858B;
+        border-width: 1px;
+        background-color: #A3E4DB;
+      ">Tweet</button>
+      <a href="{{ url_for('index') }}" id="cancel" name="cancel" class="btn btn-default" style="background-color: #EAEAEA;">Cancel</a>
       <div id="tweetsCount">
         <b>Total tweets</b> : {{ tweetsCount }}
       </div>
