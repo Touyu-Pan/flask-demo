@@ -38,29 +38,72 @@ def create_app():
     login_manager.init_app(app)
     mail.init_app(app)
     oauth.init_app(app)
-    app.add_url_rule('/index', 'index', index, methods=['GET', 'POST'])
-    app.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
-    app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
-    app.add_url_rule('/logout', 'logout', logout)
-    app.add_url_rule('/register', 'register', register, methods=['GET', 'POST'])
-    app.add_url_rule('/<username>', 'profile', user, methods=['GET', 'POST'])
-    app.register_error_handler(404, page_not_found)
-    app.add_url_rule('/edit_profile', 'edit_profile', edit_profile, methods=['GET', 'POST'])
+    app.add_url_rule('/index',
+        endpoint='index',
+        view_func=index,
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/',
+        endpoint='index', 
+        view_func=index,
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/login', 
+        endpoint='login', 
+        view_func=login, 
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/logout', 
+        endpoint='logout', 
+        view_func=logout
+    )
+    app.add_url_rule('/register', 
+        endpoint='register', 
+        view_func=register, 
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/<username>', 
+        endpoint='profile', 
+        view_func=user, 
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/edit_profile',
+        endpoint='edit_profile', 
+        view_func=edit_profile,
+        methods=['GET', 'POST']
+    ) 
+
     app.add_url_rule(
         '/reset_password_request',
-        'reset_password_request',
-        reset_password_request,
+        endpoint='reset_password_request',
+        view_func=reset_password_request,
         methods=['GET', 'POST']
     )
     app.add_url_rule(
         '/password_reset/<token>',
-        'password_reset',
-        password_reset,
+        endpoint='password_reset',
+        view_func=password_reset,
         methods=['GET', 'POST']
     )
-    app.add_url_rule('/explore', 'explore', explore, methods=['GET', 'POST'])
-    app.add_url_rule('/activate/<token>', 'user_activate', user_activate)
-    app.add_url_rule('/countTweets', 'countTweets', countTweets, methods=['POST'])
-    app.add_url_rule('/google_authorize', 'google_authorize', google_authorize)
+    app.add_url_rule('/explore', 
+        endpoint='explore', 
+        view_func=explore, 
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/activate/<token>', 
+        endpoint='user_activate', 
+        view_func=user_activate
+    )
+    app.add_url_rule('/countTweets', 
+        endpoint='countTweets', 
+        view_func=countTweets, 
+        methods=['POST']
+    )
+    app.add_url_rule('/google_authorize', 
+        endpoint='google_authorize', 
+        view_func=google_authorize
+    )
+
+    app.register_error_handler(404, page_not_found)
     return app
     
