@@ -23,8 +23,13 @@
             {% endfor %}
         </div>
         <div>
-            <button class="btn btn-info" type="submit" name="submit" value="submit">Save</button>
-            <a href="{{ url_for('profile', username = current_user.username) }}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
+            <button class="btn" type="submit" 
+            style="
+              border-color: #35858B;
+              border-width: 1px;
+              background-color: #A3E4DB;
+            ">Save</button>
+            <a href="{{ url_for('profile', username = current_user.username) }}" id="cancel" name="cancel" class="btn btn-default" style="background-color: #EAEAEA;">Cancel</a>
         </div>
     </form>
     </div>

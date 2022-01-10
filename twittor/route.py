@@ -62,7 +62,7 @@ def login():
         redirect_uri = url_for('google_authorize', _external=True)
         return google.authorize_redirect(redirect_uri)
 
-    return render_template('login.html', title="Sign In", form=form, google_login_form=google_login_form
+    return render_template('login.html', title="Welcome to Twittor", form=form, google_login_form=google_login_form
     )
 
 def logout():
