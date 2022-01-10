@@ -41,16 +41,8 @@
   {% endif %}
 </head>
 <body class="bgColor">
-  <script>
-    function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-    }
-  </script>
   <div class="container navbarColor">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('index') }}">
           <img src="{{ url_for('static', filename='img/smolAmeJAM.gif') }}" alt="smolAmeJAM">
@@ -96,5 +88,13 @@
   {% endwith %}
 
   {% block content %} {% endblock %}
+  <script>
+    function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+    }
+  </script>
 </body>
 </html>

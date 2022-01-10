@@ -281,6 +281,7 @@ def explore():
     next_url = url_for('explore', page=tweets.next_num) if tweets.has_next else None
     prev_url = url_for('explore', page=tweets.prev_num) if tweets.has_prev else None
     return render_template(
-        'explore.html', tweets=tweets.items, next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form\
+        'explore.html', title='Explore', tweets=tweets.items
+        , next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form\
         , test = current_user.username
     )
