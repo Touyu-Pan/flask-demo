@@ -25,8 +25,7 @@
   <form action="" method="POST">
     {{ form.hidden_tag() }}
     <p>
-        <b>{{ form.tweet.label }}</b><br>
-        {{ form.tweet(cols=50, rows=4, class='form-control') }}<br>
+        {{ form.tweet(cols=50, rows=4, class='form-control', placeholder="Tweet your message to the world.") }}<br>
         {% for error in form.tweet.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
