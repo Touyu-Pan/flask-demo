@@ -28,7 +28,7 @@ google = oauth.register(
 )
 
 from twittor.route import index, login, logout, password_reset, register, reset_password_request, user, \
-    page_not_found, edit_profile, reset_password_request, explore, user_activate, countTweets, google_authorize
+    page_not_found, edit_profile, reset_password_request, explore, user_activate, countTweets, google_authorize, delete
 
 def create_app():
     app = Flask(__name__)
@@ -43,6 +43,11 @@ def create_app():
     app.add_url_rule('/index',
         endpoint='index',
         view_func=index,
+        methods=['GET', 'POST']
+    )
+    app.add_url_rule('/delete/<int:id>',
+        endpoint='delete',
+        view_func=delete,
         methods=['GET', 'POST']
     )
     app.add_url_rule('/',
