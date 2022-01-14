@@ -14,17 +14,24 @@
             {% if current_user.permission == 'editor' %}
             {% if tweet.author == current_user %}
               <a href="{{ url_for('delete', id=tweet.id) }}" onclick="confirm('Are you sure?')">
-                <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
+                <img class="delIcon" src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
               </a>
             {% endif %}
             {% endif %}
 
             {% if current_user.permission == 'admin' %}
               <a href="{{ url_for('delete', id=tweet.id) }}" onclick="confirm('Are you sure?')">
-                <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
+                <img class="delIcon" src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
               </a>
             {% endif %}
           </td>
       </tr>
 {% endfor %}
 </table>
+<script>
+  $('.delIcon').mouseenter(function(){
+    $(this).attr("src", "{{ url_for('static', filename='icons/deleteHover.png') }}")
+  }).mouseleave(function(){
+    $(this).attr("src", "{{ url_for('static', filename='icons/delete.png') }}")
+  })
+</script>
