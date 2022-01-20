@@ -20,20 +20,18 @@ def index():
     page_num = int(request.args.get('page') or 1)
     tweets = current_user.own_and_followed_tweets().paginate(page=page_num, per_page=current_app.config['TWEET_PER_PAGE'], error_out=False)
 
-    delete_tweet_form = DeleteTweetForm()
-    if delete_tweet_form.validate_on_submit():
-        id = request.values['tweet_id']
-        tweet_to_deleted = Tweet.query.get(id)
-        db.session.delete(tweet_to_deleted)
-        db.session.commit()
-        return redirect(url_for('index'))
-
     next_url = url_for('index', page=tweets.next_num) if tweets.has_next else None
     prev_url = url_for('index', page=tweets.prev_num) if tweets.has_prev else None
     return render_template(
-        'index.html', tweets=tweets.items, form=form, next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form \
-            , tweetsCount=tweetsCount
+        'index.html', tweets=tweets.items, form=form, next_url=next_url, prev_url=prev_url, tweetsCount=tweetsCount
     )
+
+@login_required
+def delete(id):
+    tweet_to_deleted = Tweet.query.get(id)
+    db.session.delete(tweet_to_deleted)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 @login_required
 def countTweets():
@@ -62,7 +60,7 @@ def login():
         redirect_uri = url_for('google_authorize', _external=True)
         return google.authorize_redirect(redirect_uri)
 
-    return render_template('login.html', title="Sign In", form=form, google_login_form=google_login_form
+    return render_template('login.html', title="Login", form=form, google_login_form=google_login_form
     )
 
 def logout():
@@ -199,8 +197,10 @@ def edit_profile():
     form = EditProfileForm()
     if request.method == 'GET':
         form.about_me.data = current_user.about_me
+        form.email.data = current_user.email
     if form.validate_on_submit():
         current_user.about_me = form.about_me.data
+        current_user.email = form.email.data
         db.session.commit()
         return redirect(url_for('profile', username = current_user.username))
     return render_template('edit_profile.html', title='Profile Editer', form=form)
@@ -274,10 +274,12 @@ def explore():
         tweet_to_deleted = Tweet.query.get(id)
         db.session.delete(tweet_to_deleted)
         db.session.commit()
-        return redirect(url_for('profile', username = current_user.username))
+        return redirect(url_for('explore'))
 
     next_url = url_for('explore', page=tweets.next_num) if tweets.has_next else None
     prev_url = url_for('explore', page=tweets.prev_num) if tweets.has_prev else None
     return render_template(
-        'explore.html', tweets=tweets.items, next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form
+        'explore.html', title='Explore', tweets=tweets.items
+        , next_url=next_url, prev_url=prev_url, delete_tweet_form=delete_tweet_form\
+        , test = current_user.username
     )

@@ -9,9 +9,7 @@ class Tweet(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return "id={}, body={}, create_time={}, user_id={}".format(
-            self.id, self.body, self.create_time, self.user_id
-        )
-
+        return f"id={self.id}, body={self.body}, create_time={self.create_time}, user_id={self.user_id}"
+        
     def getTaiwanTime(self):
         return self.create_time + timedelta(hours=8)

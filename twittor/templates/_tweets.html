@@ -1,28 +1,37 @@
 <table class="table table-hover">
 {% for tweet in tweets %}
       <tr valign="top">
-          <td><img src="{{ tweet.author.avatar(48) }}" alt=""></td>
+          <td>
+            <a href="/{{ tweet.author.username }}">
+              <img src="{{ tweet.author.avatar(48) }}" alt="">
+            </a>
+          </td>
           <td class="col-md-8 align-left">
             <a href="/{{ tweet.author.username }}"><b>{{ tweet.author.username }}   </b></a>
             {{ tweet.getTaiwanTime().strftime("%Y/%m/%d %H:%M:%S") }}<br>
             {{ tweet.body }}<br>
+
             {% if current_user.permission == 'editor' %}
             {% if tweet.author == current_user %}
-              <form action="" method="POST">
-                {{ delete_tweet_form.hidden_tag() }}
-                <input type="hidden" name = "tweet_id" value="{{ tweet.id }}">
-                <button class="btn-secondary" type="submit" name = "tweet_delete" value="Delete" onclick="return confirm('Are you sure?');">Delete</button>
-              </form>
+              <a href="{{ url_for('delete', id=tweet.id) }}" onclick="confirm('Are you sure?')">
+                <img class="delIcon" src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
+              </a>
             {% endif %}
             {% endif %}
+
             {% if current_user.permission == 'admin' %}
-              <form action="" method="POST">
-                {{ delete_tweet_form.hidden_tag() }}
-                <input type="hidden" name = "tweet_id" value="{{ tweet.id }}">
-                <button class="btn-secondary" type="submit" name = "tweet_delete" value="Delete" onclick="return confirm('Are you sure?');">Delete</button>
-              </form>
+              <a href="{{ url_for('delete', id=tweet.id) }}" onclick="confirm('Are you sure?')">
+                <img class="delIcon" src="{{ url_for('static', filename='icons/delete.png') }}" alt="del">
+              </a>
             {% endif %}
           </td>
       </tr>
 {% endfor %}
 </table>
+<script>
+  $('.delIcon').mouseenter(function(){
+    $(this).attr("src", "{{ url_for('static', filename='icons/deleteHover.png') }}")
+  }).mouseleave(function(){
+    $(this).attr("src", "{{ url_for('static', filename='icons/delete.png') }}")
+  })
+</script>
