@@ -69,7 +69,7 @@ database init
 
 ```
 docker exec -it flask-demo_web_1 sh
-export FLASK_APP=manager.py
+export FLASK_APP=twittor
 flask db init
 flask db migrate -m "create table"
 flask db upgrade
